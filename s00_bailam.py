@@ -42,5 +42,27 @@ get_24hformat_hour('11 PM')            | 23                     | 12
 
 #region bailam
 def get_24hformat_hour(hour_str):
-  return 'todo'
+  if hour_str is None:
+    return None
+
+  hour_str = hour_str.strip().lower()
+
+  is_pm = 'pm' in hour_str
+  is_am = 'am' in hour_str
+
+  hour_str = hour_str.replace('am', '').replace('pm', '').strip()
+
+  try:
+    if len(hour_str) > 2:
+      hour_str = hour_str[:2]
+    hour = int(hour_str)
+  except ValueError:
+    return None
+
+  if is_pm and hour < 12:
+    hour += 12
+  elif is_am and hour == 12:
+    hour = 0
+
+  return str(hour)
 #endregion bailam
